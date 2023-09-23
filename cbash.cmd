@@ -4,7 +4,6 @@ setlocal EnableDelayedExpansion
 :: ---------------- CHANGE THIS ONLY ----------------
 
 SET "where_is_msys64_folder=C:\msys64"
-SET "where_is_git_folder=C:\Program^ Files\Git"
 
 :: write it after "="
 :: no space " " on start
@@ -20,6 +19,21 @@ IF "x%~1" == "x" (
   Exit
 )
 
+:OPTION-help
+IF "%~1" == "-help" (
+  Call :F-help
+  Exit
+)
+IF "%~1" == "--help" (
+  Call :F-help
+  Exit
+)
+IF "%~1" == "-h" (
+@Echo off
+  Call :F-help
+  Exit
+)
+
 :OPTION-msys2
 IF "%~1" == "-msys2" (
   SET "which=-msys"
@@ -31,22 +45,12 @@ IF "%~1" == "-msys2-msys" (
   GOTO :F-path
   Exit
 )
-IF "%~1" == "-msys2-msys2" (
-  SET "which=-msys"
-  GOTO :F-path
-  Exit
-)
 IF "%~1" == "-msys2-mingw32" (
   SET "which=-mingw32"
   GOTO :F-path
   Exit
 )
 IF "%~1" == "-msys2-mingw64" (
-  SET "which=-mingw64"
-  GOTO :F-path
-  Exit
-)
-IF "%~1" == "-msys2-mingw" (
   SET "which=-mingw64"
   GOTO :F-path
   Exit
@@ -71,41 +75,20 @@ IF "%~1" == "-msys2-clang" (
   GOTO :F-path
   Exit
 )
-
-:OPTION-git
-IF "%~1" == "-git" (
-  %where_is_git_folder%\bin\bash.exe  -i -l
+IF "%~1" == "-msys2-update" (
+  Echo -^> pacman -Suy
+  %where_is_msys64_folder%\usr\bin\pacman.exe -Suy
+  Exit
+)
+IF "%~1" == "-msys2-u" (
+  Echo -^> pacman -Suy
+  %where_is_msys64_folder%\usr\bin\pacman.exe -Suy
   Exit
 )
 
 :OPTION-wsl
 IF "%~1" == "-wsl" (
   wsl
-  Exit
-)
-
-:UPDATEALL
-IF "%~1" == "--update" (
-  Echo -^> pacman -Suy
-  %where_is_msys64_folder%\usr\bin\pacman.exe -Suy
-  Echo -^> git update-git-for-windows
-  git update-git-for-windows
-  Echo -^> wsl --update
-  wsl --update
-  Echo -^> wsl sudo apt update ^&^& sudo apt upgrade
-  wsl sudo apt update ^&^& sudo apt upgrade
-  Exit
-)
-
-:OPTION-update
-IF "%~1" == "-msys2-update" (
-  Echo -^> pacman -Suy
-  %where_is_msys64_folder%\usr\bin\pacman.exe -Suy
-  Exit
-)
-IF "%~1" == "-git-update" (
-  Echo -^> git update-git-for-windows
-  git update-git-for-windows
   Exit
 )
 IF "%~1" == "-wsl-update" (
@@ -115,33 +98,24 @@ IF "%~1" == "-wsl-update" (
   wsl sudo apt update ^&^& sudo apt upgrade
   Exit
 )
+IF "%~1" == "-wsl-u" (
+  Echo -^> wsl --update
+  wsl --update
+  Echo -^> wsl sudo apt update && sudo apt upgrade
+  wsl sudo apt update ^&^& sudo apt upgrade
+  Exit
+)
 
-:OPTION-help
-IF "%~1" == "-h" (
-@Echo off
-  Call :F-help
-  Exit
-)
-IF "%~1" == "-H" (
-  Call :F-help
-  Exit
-)
-IF "%~1" == "-?" (
-  Call :F-help
-  Exit
-)
-IF "%~1" == "-help" (
-  Call :F-help
-  Exit
-)
-IF "%~1" == "--help" (
-  Call :F-help
-  Exit
-)
-IF "%~1" == "/?" (
-  Call :F-help
-  Exit
-)
+@REM :UPDATEALL
+@REM IF "%~1" == "--update" (
+@REM   Echo -^> pacman -Suy
+@REM   %where_is_msys64_folder%\usr\bin\pacman.exe -Suy
+@REM   Echo -^> wsl --update
+@REM   wsl --update
+@REM   Echo -^> wsl sudo apt update ^&^& sudo apt upgrade
+@REM   wsl sudo apt update ^&^& sudo apt upgrade
+@REM   Exit
+@REM )
 
 Exit
 
@@ -174,20 +148,15 @@ Echo.
 Echo Default: -^> cbash [-msys2-mingw64] [C:\current\dir]
 Echo.
 Echo Option:
-Echo     -msys2[-msys] ^| -msys2-mingw32 ^| -msys2-mingw64 ^| -msys2-ucrt64 ^| -msys2-clang64
-Echo     -msys2-update
+Echo     -update ^| --update ^| -u
+Echo     -version ^| --version ^| -v
+Echo     -help ^| --help ^| -h
 Echo.
-Echo     -git
-Echo     -git-update
+Echo     -msys2[-msys] ^| -msys2-mingw32 ^| -msys2-mingw64 ^| -msys2-ucrt64 ^| -msys2-clang64
+Echo     -msys2-update ^| -msys2-u
 Echo.
 Echo     -wsl
-Echo     -wsl-update
-Echo.
-Echo     -h ^| -H ^| -? ^| -help ^| --help ^| /?
-Echo.
-Echo Update:      03/09/2023
-Echo     [-git] not work
-Echo     [] [path] not work
+Echo     -wsl-update ^| -wsl-u
 Echo.
 
 Exit
