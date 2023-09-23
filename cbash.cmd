@@ -215,12 +215,13 @@ CD /d %where_is_cbash_folder%
 Echo -^> cd %where_is_cbash_folder%
 Echo -^> git pull https://github.com/NaiPret/cbash.git
 git pull https://github.com/NaiPret/cbash.git
+rm cbash.cmd
 Echo.
 
 Exit
 
 :F-version
-SET "what_version=1.5 ^(23/09/2023^)"
+SET "what_version=1.6 ^(23/09/2023^)"
 Echo cbash version %what_version%
 Echo.
 
@@ -230,7 +231,6 @@ Exit
 SET "where_is_cbash_folder=%~dp0"
 cd %where_is_cbash_folder%
 SET "temp=%__CD__%"
-Echo 
 Echo -^> pacman -Suy
 %where_is_msys64_folder%\usr\bin\pacman.exe -Suy
 Echo.
