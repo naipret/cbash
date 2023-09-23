@@ -215,13 +215,13 @@ CD /d %where_is_cbash_folder%
 Echo -^> cd %where_is_cbash_folder%
 Echo -^> git pull https://github.com/NaiPret/cbash.git
 git pull https://github.com/NaiPret/cbash.git
-rm cbash.cmd
+git reset --hard
 Echo.
 
 Exit
 
 :F-version
-SET "what_version=1.6 ^(23/09/2023^)"
+SET "what_version=1.7 ^(23/09/2023^)"
 Echo cbash version %what_version%
 Echo.
 
