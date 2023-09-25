@@ -143,11 +143,11 @@ IF "%~1" == "-mu64" (
   GOTO :F-msys2-path
   EXIT
 )
-IF "%~1" == "-mu" (
-  SET "which=-ucrt64"
-  GOTO :F-msys2-path
-  EXIT
-)
+@REM IF "%~1" == "-mu" (
+@REM   SET "which=-ucrt64"
+@REM   GOTO :F-msys2-path
+@REM   EXIT
+@REM )
 IF "%~1" == "-msys2-clang64" (
   SET "which=-clang64"
   GOTO :F-msys2-path
@@ -174,6 +174,18 @@ IF "%~1" == "-mc64" (
   EXIT
 )
 IF "%~1" == "-mc" (
+  GOTO :F-msys2-path
+  EXIT
+)
+IF "%~1" == "-msys2-update" (
+  GOTO :F-msys2-update
+  EXIT
+)
+IF "%~1" == "-msys2-u" (
+  GOTO :F-msys2-update
+  EXIT
+)
+IF "%~1" == "-mu" (
   GOTO :F-msys2-update
   EXIT
 )
@@ -275,7 +287,7 @@ ECHO.
 EXIT
 
 :F-version
-SET "what_version=1.9 ^(25/09/2023^)"
+SET "what_version=1.11 ^(25/09/2023^)"
 ECHO cbash version %what_version%
 ECHO.
 
