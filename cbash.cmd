@@ -1,4 +1,4 @@
-@Echo off
+@ECHO off
 setlocal EnableDelayedExpansion
 
 :: ---------------! CHANGE THIS ONLY !---------------
@@ -16,231 +16,285 @@ SET "where_is_msys64_folder=C:\msys64"
 :DEFAULT
 IF "x%~1" == "x" (
   %where_is_msys64_folder%\msys2_shell.cmd -defterm -here -no-start -mingw64
-  Exit
+  EXIT
 )
 
 :OPTION-help
 IF "%~1" == "-help" (
   GOTO :F-help
-  Exit
+  EXIT
 )
 IF "%~1" == "--help" (
   GOTO :F-help
-  Exit
+  EXIT
 )
 IF "%~1" == "-h" (
-@Echo off
   GOTO :F-help
-  Exit
+  EXIT
 )
 
 :OPTION-update
 IF "%~1" == "-update" (
   GOTO :F-update
-  Exit
+  EXIT
 )
 IF "%~1" == "--update" (
   GOTO :F-update
-  Exit
+  EXIT
 )
 IF "%~1" == "-u" (
   GOTO :F-update
-  Exit
+  EXIT
 )
 
 :OPTION-version
 IF "%~1" == "-version" (
   GOTO :F-version
-  Exit
+  EXIT
 )
 IF "%~1" == "--version" (
   GOTO :F-version
-  Exit
+  EXIT
 )
 IF "%~1" == "-v" (
   GOTO :F-version
-  Exit
+  EXIT
 )
 
 :OPTION-msys2
 SET "which=-mingw64"
-IF "%~1" == "-msys" (
-  SET "which=-msys"
-  GOTO :F-msys2-path
-  Exit
-)
 IF "%~1" == "-msys2" (
   SET "which=-msys"
   GOTO :F-msys2-path
-  Exit
+  EXIT
+)
+IF "%~1" == "-msys" (
+  SET "which=-msys"
+  GOTO :F-msys2-path
+  EXIT
 )
 IF "%~1" == "-msys2-msys" (
   SET "which=-msys"
   GOTO :F-msys2-path
-  Exit
+  EXIT
+)
+IF "%~1" == "-msys2-m" (
+  SET "which=-msys"
+  GOTO :F-msys2-path
+  EXIT
+)
+IF "%~1" == "-mm" (
+  SET "which=-msys"
+  GOTO :F-msys2-path
+  EXIT
 )
 IF "%~1" == "-msys2-mingw32" (
   SET "which=-mingw32"
   GOTO :F-msys2-path
-  Exit
+  EXIT
+)
+IF "%~1" == "-msys2-m32" (
+  SET "which=-mingw32"
+  GOTO :F-msys2-path
+  EXIT
+)
+IF "%~1" == "-mm32" (
+  SET "which=-mingw32"
+  GOTO :F-msys2-path
+  EXIT
 )
 IF "%~1" == "-msys2-mingw64" (
   SET "which=-mingw64"
   GOTO :F-msys2-path
-  Exit
+  EXIT
+)
+IF "%~1" == "-msys2-m64" (
+  SET "which=-mingw64"
+  GOTO :F-msys2-path
+  EXIT
+)
+IF "%~1" == "-mm64" (
+  SET "which=-mingw64"
+  GOTO :F-msys2-path
+  EXIT
 )
 IF "%~1" == "-msys2-ucrt64" (
   SET "which=-ucrt64"
   GOTO :F-msys2-path
-  Exit
+  EXIT
 )
 IF "%~1" == "-msys2-ucrt" (
   SET "which=-ucrt64"
   GOTO :F-msys2-path
-  Exit
+  EXIT
+)
+IF "%~1" == "-msys2-u64" (
+  SET "which=-ucrt64"
+  GOTO :F-msys2-path
+  EXIT
+)
+IF "%~1" == "-msys2-u" (
+  SET "which=-ucrt64"
+  GOTO :F-msys2-path
+  EXIT
+)
+IF "%~1" == "-mu64" (
+  SET "which=-ucrt64"
+  GOTO :F-msys2-path
+  EXIT
+)
+IF "%~1" == "-mu" (
+  SET "which=-ucrt64"
+  GOTO :F-msys2-path
+  EXIT
 )
 IF "%~1" == "-msys2-clang64" (
   SET "which=-clang64"
   GOTO :F-msys2-path
-  Exit
+  EXIT
 )
 IF "%~1" == "-msys2-clang" (
   SET "which=-clang64"
   GOTO :F-msys2-path
-  Exit
+  EXIT
 )
-IF "%~1" == "-msys2-update" (
-  GOTO :F-msys2-update
-  Exit
+IF "%~1" == "-msys2-c64" (
+  SET "which=-clang64"
+  GOTO :F-msys2-path
+  EXIT
 )
-IF "%~1" == "-msys2-u" (
+IF "%~1" == "-msys2-c" (
+  SET "which=-clang64"
+  GOTO :F-msys2-path
+  EXIT
+)
+IF "%~1" == "-mc64" (
+  SET "which=-clang64"
+  GOTO :F-msys2-path
+  EXIT
+)
+IF "%~1" == "-mc" (
   GOTO :F-msys2-update
-  Exit
+  EXIT
 )
 
 :OPTION-wsl
 IF "%~1" == "-wsl" (
   GOTO :F-wsl-path
-  Exit
+  EXIT
+)
+IF "%~1" == "-w" (
+  GOTO :F-wsl-path
+  EXIT
 )
 IF "%~1" == "-wsl-update" (
   GOTO :F-wsl-update
-  Exit
+  EXIT
 )
 IF "%~1" == "-wsl-u" (
   GOTO :F-wsl-update
-  Exit
+  EXIT
+)
+IF "%~1" == "-wu" (
+  GOTO :F-wsl-update
+  EXIT
 )
 
-@REM :UPDATEALL
-@REM IF "%~1" == "-update-all" (
-@REM   Echo -^> git pull https://github.com/NaiPret/cbash.git
-@REM   git pull https://github.com/NaiPret/cbash.git
-@REM   Echo -^> pacman -Suy
-@REM   %where_is_msys64_folder%\usr\bin\pacman.exe -Suy
-@REM   Echo -^> wsl --update
-@REM   wsl --update
-@REM   Echo -^> wsl sudo apt update ^&^& sudo apt upgrade
-@REM   wsl sudo apt update ^&^& sudo apt upgrade
-@REM   Exit
-@REM )
-
-Exit
+EXIT
 
 :F-msys2-path
-SET "path=%__CD__%"
 IF "x%~2" == "x" (
   %where_is_msys64_folder%\msys2_shell.cmd -defterm -here -no-start %which%
-  Exit
+  EXIT
 ) ELSE IF "x%~2" == "x." (
   %where_is_msys64_folder%\msys2_shell.cmd -defterm -here -no-start %which%
-  Exit
+  EXIT
 ) ELSE IF "x%~2" == "x.." (
-  cd /d ..
+  CD /d ..
   %where_is_msys64_folder%\msys2_shell.cmd -defterm -here -no-start %which%
-  Exit
+  EXIT
 ) ELSE (
-  cd /d %~2
-  %where_is_msys64_folder%\msys2_shell.cmd -defterm -here -no-start %which% -where
-  Echo.
-  Exit
+  CD /d ^"%~2^"
+  ECHO Please add double quotes ^" ^" for the path if the system cannot find
+  ECHO For example: -^> ^"C:\Program Files^"
+  %where_is_msys64_folder%\msys2_shell.cmd -defterm -here -no-start %which%
+  EXIT
 )
 
-Exit
+EXIT
 
 :F-wsl-path
-SET "path=%__CD__%"
 IF "x%~2" == "x" (
   %SystemRoot%\system32\wsl.exe
-  Exit
+  EXIT
 ) ELSE IF "x%~2" == "x." (
   %SystemRoot%\system32\wsl.exe
-  Exit
+  EXIT
 ) ELSE IF "x%~2" == "x.." (
-  cd /d ..
+  CD /d ..
   %SystemRoot%\system32\wsl.exe
-  Exit
+  EXIT
 ) ELSE (
-  cd /d %~2
+  CD /d %~2
   %SystemRoot%\system32\wsl.exe
-  Exit
+  EXIT
 )
 
-Exit
+EXIT
 
 :F-help
-Echo Usage:      cbash [option] [path]
-Echo.
-Echo Default: -^> cbash [-msys2-mingw64] [C:\current\dir]
-Echo.
-Echo Option:
-Echo     -help ^| --help ^| -h
-Echo     -update ^| --update ^| -u
-Echo     -version ^| --version ^| -v
-Echo.
-Echo     -msys2[-msys] ^| -msys2-mingw32 ^| -msys2-mingw64 ^| -msys2-ucrt64 ^| -msys2-clang64
-Echo     -msys2-update ^| -msys2-u
-Echo.
-Echo     -wsl
-Echo     -wsl-update ^| -wsl-u
-Echo.
-Echo Repository: https://github.com/NaiPret/cbash.git
-Echo.
+ECHO Usage:      cbash [option] [path]
+ECHO.
+ECHO Default: -^> cbash [-msys2-mingw64] [C:\current\dir]
+ECHO.
+ECHO Option:
+ECHO     -help ^| --help ^| -h
+ECHO     -update ^| --update ^| -u
+ECHO     -version ^| --version ^| -v
+ECHO.
+ECHO     -msys2[-msys] ^| -msys2-mingw32 ^| -msys2-mingw64 ^| -msys2-ucrt64 ^| -msys2-clang64
+ECHO     -msys2-update ^| -msys2-u
+ECHO.
+ECHO     -wsl
+ECHO     -wsl-update ^| -wsl-u
+ECHO.
+ECHO Repository: https://github.com/NaiPret/cbash.git
+ECHO.
 
-Exit
+EXIT
 
 :F-update
 SET "where_is_cbash_folder=%~dp0"
 CD /d %where_is_cbash_folder%
-Echo -^> cd %where_is_cbash_folder%
-Echo -^> git pull https://github.com/NaiPret/cbash.git
+ECHO -^> CD %where_is_cbash_folder%
+ECHO -^> git pull https://github.com/NaiPret/cbash.git
 git pull https://github.com/NaiPret/cbash.git
 git reset --hard
-Echo.
+ECHO.
 
-Exit
+EXIT
 
 :F-version
-SET "what_version=1.7 ^(23/09/2023^)"
-Echo cbash version %what_version%
-Echo.
+SET "what_version=1.9 ^(25/09/2023^)"
+ECHO cbash version %what_version%
+ECHO.
 
-Exit
+EXIT
 
 :F-msys2-update
 SET "where_is_cbash_folder=%~dp0"
-cd %where_is_cbash_folder%
+CD %where_is_cbash_folder%
 SET "temp=%__CD__%"
-Echo -^> pacman -Suy
+ECHO -^> pacman -Suy
 %where_is_msys64_folder%\usr\bin\pacman.exe -Suy
-Echo.
+ECHO.
 
-Exit
+EXIT
 
 :F-wsl-update
-Echo -^> wsl --update
+ECHO -^> wsl --update
 wsl --update
-Echo -^> wsl sudo apt update && sudo apt upgrad
+ECHO -^> wsl sudo apt update && sudo apt upgrad
 wsl sudo apt update ^&^& sudo apt upgrade
 
-Exit
+EXIT
