@@ -17,6 +17,17 @@ SET "where_is_msys64_folder=C:\msys64"
 IF "x%~1" == "x" (
   %where_is_msys64_folder%\msys2_shell.cmd -defterm -here -no-start -ucrt64
   EXIT
+) ELSE IF "x%~1" == "x." (
+  %where_is_msys64_folder%\msys2_shell.cmd -defterm -here -no-start -ucrt64
+  EXIT
+) ELSE IF "x%~1" == "x.." (
+  CD /d ..
+  %where_is_msys64_folder%\msys2_shell.cmd -defterm -here -no-start -ucrt64
+  EXIT
+) ELSE IF "x%~1" == "x~" (
+  CD /d %userprofile%
+  %where_is_msys64_folder%\msys2_shell.cmd -defterm -here -no-start -ucrt64
+  EXIT
 )
 
 :OPTION-help
@@ -52,6 +63,20 @@ IF "%~1" == "--update" (
 )
 IF "%~1" == "-u" (
   GOTO :F-update
+  EXIT
+)
+
+:OPTION-reset
+IF "%~1" == "-reset" (
+  GOTO :F-reset
+  EXIT
+)
+IF "%~1" == "--reset" (
+  GOTO :F-reset
+  EXIT
+)
+IF "%~1" == "-r" (
+  GOTO :F-reset
   EXIT
 )
 
@@ -190,6 +215,7 @@ IF "%~1" == "-mc64" (
   EXIT
 )
 IF "%~1" == "-mc" (
+  SET "which=-clang64"
   GOTO :F-msys2-path
   EXIT
 )
@@ -308,6 +334,7 @@ ECHO.
 ECHO Option:
 ECHO     -help ^| --help ^| -h
 ECHO     -update ^| --update ^| -u
+ECHO     -reset ^| --reset ^| -r
 ECHO     -version ^| --version ^| -v
 ECHO.
 ECHO     -msys2[-msys] ^| -msys2-mingw64 ^| -msys2-ucrt64 ^| -msys2-clang64
@@ -334,8 +361,18 @@ ECHO.
 
 EXIT
 
+:F-reset
+SET "where_is_cbash_folder=%~dp0"
+ECHO -^> cd %where_is_cbash_folder%
+CD /d %where_is_cbash_folder%
+ECHO -^> git reset --hard
+git reset --hard
+ECHO.
+
+EXIT
+
 :F-version
-SET "what_version=1.17 ^(06/10/2023^)"
+SET "what_version=1.18 ^(06/10/2023^)"
 ECHO cbash version %what_version%
 ECHO.
 
