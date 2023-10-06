@@ -15,7 +15,7 @@ SET "where_is_msys64_folder=C:\msys64"
 
 :DEFAULT
 IF "x%~1" == "x" (
-  %where_is_msys64_folder%\msys2_shell.cmd -defterm -here -no-start -mingw64
+  %where_is_msys64_folder%\msys2_shell.cmd -defterm -here -no-start -ucrt64
   EXIT
 )
 
@@ -70,7 +70,7 @@ IF "%~1" == "-v" (
 )
 
 :OPTION-msys2
-SET "which=-mingw64"
+SET "which=-ucrt64"
 
 :OPTION-msys2-msys
 IF "%~1" == "-msys2" (
@@ -127,23 +127,6 @@ IF "%~1" == "-msys2-m64" (
 )
 IF "%~1" == "-mm64" (
   SET "which=-mingw64"
-  GOTO :F-msys2-path
-  EXIT
-)
-
-:OPTION-msys2-ming32
-IF "%~1" == "-msys2-mingw32" (
-  SET "which=-mingw32"
-  GOTO :F-msys2-path
-  EXIT
-)
-IF "%~1" == "-msys2-m32" (
-  SET "which=-mingw32"
-  GOTO :F-msys2-path
-  EXIT
-)
-IF "%~1" == "-mm32" (
-  SET "which=-mingw32"
   GOTO :F-msys2-path
   EXIT
 )
@@ -249,6 +232,20 @@ IF "%~1" == "-wu" (
   EXIT
 )
 
+:OPTION-wsl-shutdown
+IF "%~1" == "-wsl-shutdown" (
+  GOTO :F-wsl-shutdown
+  EXIT
+)
+IF "%~1" == "-wsl-s" (
+  GOTO :F-wsl-shutdown
+  EXIT
+)
+IF "%~1" == "-ws" (
+  GOTO :F-wsl-shutdown
+  EXIT
+)
+
 ECHO Unknown option: %~1
 ECHO Use 'cbash -help' for help
 ECHO.
@@ -306,18 +303,19 @@ EXIT
 :F-help
 ECHO Usage:      cbash [option] [path]
 ECHO.
-ECHO Default: -^> cbash [-msys2-mingw64] [C:\current\dir]
+ECHO Default: -^> cbash [-msys2-ucrt64] [C:\current\dir]
 ECHO.
 ECHO Option:
 ECHO     -help ^| --help ^| -h
 ECHO     -update ^| --update ^| -u
 ECHO     -version ^| --version ^| -v
 ECHO.
-ECHO     -msys2[-msys] ^| -msys2-mingw32 ^| -msys2-mingw64 ^| -msys2-ucrt64 ^| -msys2-clang64
-ECHO     -msys2-update ^| -msys2-u
+ECHO     -msys2[-msys] ^| -msys2-mingw64 ^| -msys2-ucrt64 ^| -msys2-clang64
+ECHO     -msys2-update ^| -mu
 ECHO.
 ECHO     -wsl
-ECHO     -wsl-update ^| -wsl-u
+ECHO     -wsl-update ^| -wu
+ECHO     -wsl-shutdown ^| -ws
 ECHO.
 ECHO Repository: https://github.com/NaiPret/cbash.git
 ECHO.
@@ -337,7 +335,7 @@ ECHO.
 EXIT
 
 :F-version
-SET "what_version=1.15 ^(06/10/2023^)"
+SET "what_version=1.17 ^(06/10/2023^)"
 ECHO cbash version %what_version%
 ECHO.
 
@@ -358,5 +356,11 @@ ECHO -^> wsl --update
 wsl --update
 ECHO -^> wsl sudo apt update && sudo apt upgrad
 wsl sudo apt update ^&^& sudo apt upgrade
+
+EXIT
+
+:F-wsl-shutdown
+ECHO -^> wsl --shutdown
+wsl --shutdown
 
 EXIT
