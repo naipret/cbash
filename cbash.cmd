@@ -32,6 +32,14 @@ IF "%~1" == "-h" (
   GOTO :F-help
   EXIT
 )
+IF "%~1" == "help" (
+  GOTO :F-help
+  EXIT
+)
+IF "%~1" == "h" (
+  GOTO :F-help
+  EXIT
+)
 
 :OPTION-update
 IF "%~1" == "-update" (
@@ -63,12 +71,9 @@ IF "%~1" == "-v" (
 
 :OPTION-msys2
 SET "which=-mingw64"
+
+:OPTION-msys2-msys
 IF "%~1" == "-msys2" (
-  SET "which=-msys"
-  GOTO :F-msys2-path
-  EXIT
-)
-IF "%~1" == "-msys" (
   SET "which=-msys"
   GOTO :F-msys2-path
   EXIT
@@ -83,26 +88,33 @@ IF "%~1" == "-msys2-m" (
   GOTO :F-msys2-path
   EXIT
 )
+IF "%~1" == "-msys" (
+  SET "which=-msys"
+  GOTO :F-msys2-path
+  EXIT
+)
+IF "%~1" == "-msys-msys" (
+  SET "which=-msys"
+  GOTO :F-msys2-path
+  EXIT
+)
+IF "%~1" == "-msys-m" (
+  SET "which=-msys"
+  GOTO :F-msys2-path
+  EXIT
+)
 IF "%~1" == "-mm" (
   SET "which=-msys"
   GOTO :F-msys2-path
   EXIT
 )
-IF "%~1" == "-msys2-mingw32" (
-  SET "which=-mingw32"
+IF "%~1" == "-m" (
+  SET "which=-msys"
   GOTO :F-msys2-path
   EXIT
 )
-IF "%~1" == "-msys2-m32" (
-  SET "which=-mingw32"
-  GOTO :F-msys2-path
-  EXIT
-)
-IF "%~1" == "-mm32" (
-  SET "which=-mingw32"
-  GOTO :F-msys2-path
-  EXIT
-)
+
+:OPTION-msys2-mingw64
 IF "%~1" == "-msys2-mingw64" (
   SET "which=-mingw64"
   GOTO :F-msys2-path
@@ -118,6 +130,25 @@ IF "%~1" == "-mm64" (
   GOTO :F-msys2-path
   EXIT
 )
+
+:OPTION-msys2-ming32
+IF "%~1" == "-msys2-mingw32" (
+  SET "which=-mingw32"
+  GOTO :F-msys2-path
+  EXIT
+)
+IF "%~1" == "-msys2-m32" (
+  SET "which=-mingw32"
+  GOTO :F-msys2-path
+  EXIT
+)
+IF "%~1" == "-mm32" (
+  SET "which=-mingw32"
+  GOTO :F-msys2-path
+  EXIT
+)
+
+:OPTION-msys2-ucrt64
 IF "%~1" == "-msys2-ucrt64" (
   SET "which=-ucrt64"
   GOTO :F-msys2-path
@@ -133,11 +164,11 @@ IF "%~1" == "-msys2-u64" (
   GOTO :F-msys2-path
   EXIT
 )
-IF "%~1" == "-msys2-u" (
-  SET "which=-ucrt64"
-  GOTO :F-msys2-path
-  EXIT
-)
+@REM IF "%~1" == "-msys2-u" (
+@REM   SET "which=-ucrt64"
+@REM   GOTO :F-msys2-path
+@REM   EXIT
+@REM )
 IF "%~1" == "-mu64" (
   SET "which=-ucrt64"
   GOTO :F-msys2-path
@@ -148,6 +179,8 @@ IF "%~1" == "-mu64" (
 @REM   GOTO :F-msys2-path
 @REM   EXIT
 @REM )
+
+:OPTION-msys2-clang64
 IF "%~1" == "-msys2-clang64" (
   SET "which=-clang64"
   GOTO :F-msys2-path
@@ -177,6 +210,8 @@ IF "%~1" == "-mc" (
   GOTO :F-msys2-path
   EXIT
 )
+
+:OPTION-msys2-update
 IF "%~1" == "-msys2-update" (
   GOTO :F-msys2-update
   EXIT
@@ -199,6 +234,8 @@ IF "%~1" == "-w" (
   GOTO :F-wsl-path
   EXIT
 )
+
+:OPTION-wsl-update
 IF "%~1" == "-wsl-update" (
   GOTO :F-wsl-update
   EXIT
@@ -212,6 +249,10 @@ IF "%~1" == "-wu" (
   EXIT
 )
 
+ECHO Unknown option: %~1
+ECHO Use 'cbash -help' for help
+ECHO.
+
 EXIT
 
 :F-msys2-path
@@ -223,6 +264,10 @@ IF "x%~2" == "x" (
   EXIT
 ) ELSE IF "x%~2" == "x.." (
   CD /d ..
+  %where_is_msys64_folder%\msys2_shell.cmd -defterm -here -no-start %which%
+  EXIT
+) ELSE IF "x%~2" == "x~" (
+  CD /d %userprofile%
   %where_is_msys64_folder%\msys2_shell.cmd -defterm -here -no-start %which%
   EXIT
 ) ELSE (
@@ -244,6 +289,10 @@ IF "x%~2" == "x" (
   EXIT
 ) ELSE IF "x%~2" == "x.." (
   CD /d ..
+  %SystemRoot%\system32\wsl.exe
+  EXIT
+) ELSE IF "x%~2" == "x~" (
+  CD /d %userprofile%
   %SystemRoot%\system32\wsl.exe
   EXIT
 ) ELSE (
@@ -277,17 +326,18 @@ EXIT
 
 :F-update
 SET "where_is_cbash_folder=%~dp0"
+ECHO -^> cd %where_is_cbash_folder%
 CD /d %where_is_cbash_folder%
-ECHO -^> CD %where_is_cbash_folder%
 ECHO -^> git pull https://github.com/NaiPret/cbash.git
 git pull https://github.com/NaiPret/cbash.git
+ECHO -^> git reset --hard
 git reset --hard
 ECHO.
 
 EXIT
 
 :F-version
-SET "what_version=1.11 ^(25/09/2023^)"
+SET "what_version=1.15 ^(06/10/2023^)"
 ECHO cbash version %what_version%
 ECHO.
 
