@@ -98,11 +98,6 @@ IF "%~1" == "-v" (
 SET "which=-ucrt64"
 
 :OPTION-msys2-msys
-IF "%~1" == "-msys2" (
-  SET "which=-msys"
-  GOTO :F-msys2-path
-  EXIT
-)
 IF "%~1" == "-msys2-msys" (
   SET "which=-msys"
   GOTO :F-msys2-path
@@ -113,12 +108,7 @@ IF "%~1" == "-msys2-m" (
   GOTO :F-msys2-path
   EXIT
 )
-IF "%~1" == "-m2m" (
-  SET "which=-msys"
-  GOTO :F-msys2-path
-  EXIT
-)
-IF "%~1" == "-msys" (
+IF "%~1" == "-msys2" (
   SET "which=-msys"
   GOTO :F-msys2-path
   EXIT
@@ -129,6 +119,11 @@ IF "%~1" == "-msys-msys" (
   EXIT
 )
 IF "%~1" == "-msys-m" (
+  SET "which=-msys"
+  GOTO :F-msys2-path
+  EXIT
+)
+IF "%~1" == "-msys" (
   SET "which=-msys"
   GOTO :F-msys2-path
   EXIT
@@ -150,7 +145,27 @@ IF "%~1" == "-msys2-mingw64" (
   GOTO :F-msys2-path
   EXIT
 )
+IF "%~1" == "-msys2-mingw" (
+  SET "which=-mingw64"
+  GOTO :F-msys2-path
+  EXIT
+)
 IF "%~1" == "-msys2-m64" (
+  SET "which=-mingw64"
+  GOTO :F-msys2-path
+  EXIT
+)
+IF "%~1" == "-mingw64" (
+  SET "which=-mingw64"
+  GOTO :F-msys2-path
+  EXIT
+)
+IF "%~1" == "-mingw" (
+  SET "which=-mingw64"
+  GOTO :F-msys2-path
+  EXIT
+)
+IF "%~1" == "-m64" (
   SET "which=-mingw64"
   GOTO :F-msys2-path
   EXIT
@@ -172,7 +187,27 @@ IF "%~1" == "-msys2-mingw32" (
   GOTO :F-msys2-path
   EXIT
 )
+@REM IF "%~1" == "-msys2-mingw" (
+@REM   SET "which=-mingw32"
+@REM   GOTO :F-msys2-path
+@REM   EXIT
+@REM )
 IF "%~1" == "-msys2-m32" (
+  SET "which=-mingw32"
+  GOTO :F-msys2-path
+  EXIT
+)
+IF "%~1" == "-mingw32" (
+  SET "which=-mingw32"
+  GOTO :F-msys2-path
+  EXIT
+)
+@REM IF "%~1" == "-mingw" (
+@REM   SET "which=-mingw32"
+@REM   GOTO :F-msys2-path
+@REM   EXIT
+@REM )
+IF "%~1" == "-m32" (
   SET "which=-mingw32"
   GOTO :F-msys2-path
   EXIT
@@ -219,26 +254,26 @@ IF "%~1" == "-mu64" (
 @REM   GOTO :F-msys2-path
 @REM   EXIT
 @REM )
+IF "%~1" == "-ucrt64" (
+  SET "which=-ucrt64"
+  GOTO :F-msys2-path
+  EXIT
+)
+IF "%~1" == "-ucrt" (
+  SET "which=-ucrt64"
+  GOTO :F-msys2-path
+  EXIT
+)
 IF "%~1" == "-u64" (
   SET "which=-ucrt64"
   GOTO :F-msys2-path
   EXIT
 )
-IF "%~1" == "-msys2-default" (
-  SET "which=-ucrt64"
-  GOTO :F-msys2-path
-  EXIT
-)
-IF "%~1" == "-msys2-d" (
-  SET "which=-ucrt64"
-  GOTO :F-msys2-path
-  EXIT
-)
-IF "%~1" == "-md" (
-  SET "which=-ucrt64"
-  GOTO :F-msys2-path
-  EXIT
-)
+@REM IF "%~1" == "-u" (
+@REM   SET "which=-ucrt64"
+@REM   GOTO :F-msys2-path
+@REM   EXIT
+@REM )
 
 :OPTION-msys2-clang64
 IF "%~1" == "-msys2-clang64" (
@@ -271,6 +306,16 @@ IF "%~1" == "-mc" (
   GOTO :F-msys2-path
   EXIT
 )
+IF "%~1" == "-clang64" (
+  SET "which=-clang64"
+  GOTO :F-msys2-path
+  EXIT
+)
+IF "%~1" == "-clang" (
+  SET "which=-clang64"
+  GOTO :F-msys2-path
+  EXIT
+)
 IF "%~1" == "-c64" (
   SET "which=-clang64"
   GOTO :F-msys2-path
@@ -289,7 +334,7 @@ IF "%~1" == "-msys2-clang32" (
   EXIT
 )
 @REM IF "%~1" == "-msys2-clang" (
-@REM   SET "which=-clang64"
+@REM   SET "which=-clang32"
 @REM   GOTO :F-msys2-path
 @REM   EXIT
 @REM )
@@ -299,7 +344,7 @@ IF "%~1" == "-msys2-c32" (
   EXIT
 )
 @REM IF "%~1" == "-msys2-c" (
-@REM   SET "which=-clang64"
+@REM   SET "which=-clang32"
 @REM   GOTO :F-msys2-path
 @REM   EXIT
 @REM )
@@ -309,17 +354,27 @@ IF "%~1" == "-mc32" (
   EXIT
 )
 @REM IF "%~1" == "-mc" (
-@REM   SET "which=-clang64"
+@REM   SET "which=-clang32"
+@REM   GOTO :F-msys2-path
+@REM   EXIT
+@REM )
+IF "%~1" == "-clang32" (
+  SET "which=-clang32"
+  GOTO :F-msys2-path
+  EXIT
+)
+@REM IF "%~1" == "-clang" (
+@REM   SET "which=-clang32"
 @REM   GOTO :F-msys2-path
 @REM   EXIT
 @REM )
 IF "%~1" == "-c32" (
-  SET "which=-clang64"
+  SET "which=-clang32"
   GOTO :F-msys2-path
   EXIT
 )
 @REM IF "%~1" == "-c" (
-@REM   SET "which=-clang64"
+@REM   SET "which=-clang32"
 @REM   GOTO :F-msys2-path
 @REM   EXIT
 @REM )
@@ -330,7 +385,32 @@ IF "%~1" == "-msys2-clangarm64" (
   GOTO :F-msys2-path
   EXIT
 )
+IF "%~1" == "-msys2-clanga64" (
+  SET "which=-clangarm64"
+  GOTO :F-msys2-path
+  EXIT
+)
+IF "%~1" == "-msys2-carm64" (
+  SET "which=-clangarm64"
+  GOTO :F-msys2-path
+  EXIT
+)
 IF "%~1" == "-msys2-ca64" (
+  SET "which=-clangarm64"
+  GOTO :F-msys2-path
+  EXIT
+)
+IF "%~1" == "-msys2-clangarm" (
+  SET "which=-clangarm64"
+  GOTO :F-msys2-path
+  EXIT
+)
+IF "%~1" == "-msys2-clanga" (
+  SET "which=-clangarm64"
+  GOTO :F-msys2-path
+  EXIT
+)
+IF "%~1" == "-msys2-carm" (
   SET "which=-clangarm64"
   GOTO :F-msys2-path
   EXIT
@@ -340,22 +420,22 @@ IF "%~1" == "-msys2-ca" (
   GOTO :F-msys2-path
   EXIT
 )
+IF "%~1" == "-mclangarm64" (
+  SET "which=-clangarm64"
+  GOTO :F-msys2-path
+  EXIT
+)
+IF "%~1" == "-mclanga64" (
+  SET "which=-clangarm64"
+  GOTO :F-msys2-path
+  EXIT
+)
 IF "%~1" == "-mcarm64" (
   SET "which=-clangarm64"
   GOTO :F-msys2-path
   EXIT
 )
-IF "%~1" == "-mcarm" (
-  SET "which=-clangarm64"
-  GOTO :F-msys2-path
-  EXIT
-)
-IF "%~1" == "-mclangarm" (
-  SET "which=-clangarm64"
-  GOTO :F-msys2-path
-  EXIT
-)
-IF "%~1" == "-mclanga" (
+IF "%~1" == "-mca64" (
   SET "which=-clangarm64"
   GOTO :F-msys2-path
   EXIT
@@ -365,12 +445,17 @@ IF "%~1" == "-mca" (
   GOTO :F-msys2-path
   EXIT
 )
-IF "%~1" == "-mclanga" (
+IF "%~1" == "-clangarm64" (
   SET "which=-clangarm64"
   GOTO :F-msys2-path
   EXIT
 )
-IF "%~1" == "-mclangarm" (
+IF "%~1" == "-clanga64" (
+  SET "which=-clangarm64"
+  GOTO :F-msys2-path
+  EXIT
+)
+IF "%~1" == "-carm64" (
   SET "which=-clangarm64"
   GOTO :F-msys2-path
   EXIT
@@ -380,12 +465,17 @@ IF "%~1" == "-clangarm" (
   GOTO :F-msys2-path
   EXIT
 )
+IF "%~1" == "-clanga" (
+  SET "which=-clangarm64"
+  GOTO :F-msys2-path
+  EXIT
+)
 IF "%~1" == "-carm" (
   SET "which=-clangarm64"
   GOTO :F-msys2-path
   EXIT
 )
-IF "%~1" == "-clanga" (
+IF "%~1" == "-ca64" (
   SET "which=-clangarm64"
   GOTO :F-msys2-path
   EXIT
@@ -508,19 +598,21 @@ ECHO.
 ECHO Default: -^> cbash [-msys2-ucrt64] [C:\current\dir]
 ECHO.
 ECHO Option:
-ECHO     -help ^| --help ^| -h
-ECHO     -update ^| --update ^| -u
-ECHO     -reset ^| --reset ^| -r
-ECHO     -version ^| --version ^| -v
+ECHO     -help    ^| --help    ^| -h                          Display help information.
+ECHO     -update  ^| --update  ^| -u                          Update and reset this tool.
+ECHO     -reset   ^| --reset   ^| -r                          Reset this tool to default.
+ECHO     -version ^| --version ^| -v                          Display version information.
 ECHO.
-ECHO     -msys2[-msys] ^| -msys2-mingw[64] ^| -msys2-ucrt64 ^| -msys2-clang[64] ^| -msys2-clangarm64
-ECHO     -msys2-update ^| -mu
+ECHO     -msys2[-msys] ^| -msys2-ucrt64 ^| -msys2-mingw[64]   MSYS2: Choose msys2 shell type.
+ECHO     -msys2-clang[64] ^| -msys2-clangarm64               Can use any short option:
+ECHO                                                          '-msys2-mingw32' -^> '-mm32'
+ECHO     -msys2-update ^| -mu                                Update msys2 + pacman package.
 ECHO.
-ECHO     -wsl
-ECHO     -wsl-update ^| -wu
-ECHO     -wsl-shutdown ^| -ws
+ECHO     -wsl                                               WSL:
+ECHO     -wsl-update   ^| -wu                                Update wsl + apt package.
+ECHO     -wsl-shutdown ^| -ws                                Shutdown wsl machine.
 ECHO.
-ECHO Repository: https://github.com/NaiPret/cbash.git
+ECHO Repository: https://github.com/NaiPret/cbash.git       Thanks for using cbash.
 ECHO.
 
 EXIT
@@ -548,7 +640,7 @@ ECHO.
 EXIT
 
 :F-version
-SET "what_version=1.21 ^(14/10/2023^)"
+SET "what_version=2.18 ^(14/10/2023^)"
 ECHO cbash version %what_version%
 ECHO.
 
