@@ -640,7 +640,7 @@ ECHO.
 EXIT
 
 :F-version
-SET "what_version=2.18 ^(14/10/2023^)"
+SET "what_version=2.23 ^(14/10/2023^)"
 ECHO cbash version %what_version%
 ECHO.
 
