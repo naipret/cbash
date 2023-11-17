@@ -1,7 +1,7 @@
-@REM @ECHO off
+@ECHO off
 setlocal EnableDelayedExpansion
 
-SET "what_version=3.17 ^(17/11/2023^)"
+SET "what_version=3.18 ^(17/11/2023^)"
 
 :: ---------------! CHANGE THIS ONLY !---------------
 
