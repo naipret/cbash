@@ -1,31 +1,25 @@
 @ECHO off
-setlocal EnableDelayedExpansion
+@REM setlocal EnableDelayedExpansion
 
-SET "what_version=3.18 ^(17/11/2023^)"
+SET "version=3.21 ^(19/11/2023^)"
 
 :: ---------------! CHANGE THIS ONLY !---------------
 
-SET "where_is_msys64_folder=C:\msys64"
+SET "msys64_location=C:\msys64\"
 
-:: write it after "="
-:: no space " " on start
-:: change " " in some folder name to "^ "
-:: no slash "\" at the end
 :: --------------------------------------------------
 
-:: where to learn cmd programming: https://en.wikibooks.org/wiki/Windows_Programming/Programming_CMD
-
 :DEFAULT
-IF "x%~1" == "x" %where_is_msys64_folder%\msys2_shell.cmd -defterm -here -no-start -ucrt64 & EXIT /b 0
-IF "x%~1" == "x." %where_is_msys64_folder%\msys2_shell.cmd -defterm -here -no-start -ucrt64 & EXIT /b 0
+IF "x%~1" == "x" %msys64_location%msys2_shell.cmd -defterm -here -no-start -ucrt64 & EXIT /b 0
+IF "x%~1" == "x." %msys64_location%msys2_shell.cmd -defterm -here -no-start -ucrt64 & EXIT /b 0
 IF "x%~1" == "x.." (
   CD /d ..
-  %where_is_msys64_folder%\msys2_shell.cmd -defterm -here -no-start -ucrt64
+  %msys64_location%msys2_shell.cmd -defterm -here -no-start -ucrt64
   EXIT /b 0
 )
 IF "x%~1" == "x~" (
   CD /d %userprofile%
-  %where_is_msys64_folder%\msys2_shell.cmd -defterm -here -no-start -ucrt64
+  %msys64_location%msys2_shell.cmd -defterm -here -no-start -ucrt64
   EXIT /b 0
 )
 
@@ -209,32 +203,32 @@ IF "%~1" == "-winget" GOTO :F-winget-update & EXIT /b 0
 IF "%~1" == "-wg" GOTO :F-winget-update & EXIT /b 0
 
 ECHO Unknown option: %~1
-ECHO Use ^"cbash -help^" for help
+ECHO Use ^"cbash -help^" for help.
 ECHO.
 
 EXIT /b 0
 
 :F-msys2-path
-IF "x%~2" == "x" %where_is_msys64_folder%\msys2_shell.cmd -defterm -here -no-start %which% & EXIT /b 0
-IF "x%~2" == "x." %where_is_msys64_folder%\msys2_shell.cmd -defterm -here -no-start %which% & EXIT /b 0
+IF "x%~2" == "x" %msys64_location%msys2_shell.cmd -defterm -here -no-start %which% & EXIT /b 0
+IF "x%~2" == "x." %msys64_location%msys2_shell.cmd -defterm -here -no-start %which% & EXIT /b 0
 IF "x%~2" == "x.." (
   CD /d ..
-  %where_is_msys64_folder%\msys2_shell.cmd -defterm -here -no-start %which%
+  %msys64_location%msys2_shell.cmd -defterm -here -no-start %which%
   EXIT /b 0
 ) 
 IF "x%~2" == "x~" (
   CD /d %userprofile%
-  %where_is_msys64_folder%\msys2_shell.cmd -defterm -here -no-start %which%
+  %msys64_location%msys2_shell.cmd -defterm -here -no-start %which%
   EXIT /b 0
 ) ELSE (
   CD /d "%~2"
   IF NOT EXIST "%~2" (
     ECHO Please add double quotes ^" ^" for the path if the system cannot find.
-    ECHO For example: -^> ^"C:\Program Files^".
+    ECHO For example: -^> cbash %~1 ^"C:\Program Files^".
     ECHO.
     EXIT /b 0
   )
-  %where_is_msys64_folder%\msys2_shell.cmd -defterm -here -no-start %which%
+  %msys64_location%msys2_shell.cmd -defterm -here -no-start %which%
   EXIT /b 0
 )
 EXIT /b 0
@@ -257,7 +251,7 @@ IF "x%~2" == "x~" (
   CD /d "%~2"
   IF NOT EXIST "%~2" (
     ECHO Please add double quotes ^" ^" for the path if the system cannot find.
-    ECHO For example: -^> ^"C:\Program Files^".
+    ECHO For example: -^> cbash %~1 ^"C:\Program Files^".
     ECHO.
     EXIT /b 0
   )
@@ -294,9 +288,9 @@ ECHO.
 EXIT /b 0
 
 :F-update
-SET "where_is_cbash_folder=%~dp0"
-ECHO -^> cd %where_is_cbash_folder%
-CD /d %where_is_cbash_folder%
+SET "cbash_location=%~dp0"
+ECHO -^> cd %cbash_location%
+CD /d %cbash_location%
 ECHO -^> git pull https://github.com/NaiPret/cbash.git
 git pull https://github.com/NaiPret/cbash.git
 ECHO -^> git reset --hard
@@ -305,23 +299,22 @@ ECHO.
 EXIT /b 0
 
 :F-reset
-SET "where_is_cbash_folder=%~dp0"
-ECHO -^> cd %where_is_cbash_folder%
-CD /d %where_is_cbash_folder%
+SET "cbash_location=%~dp0"
+ECHO -^> cd %cbash_location%
+CD /d %cbash_location%
 ECHO -^> git reset --hard
 git reset --hard
 ECHO.
 EXIT /b 0
 
 :F-version
-ECHO cbash version %what_version%
+ECHO cbash version %version%
 ECHO.
 EXIT /b 0
 
 :F-msys2-update
-SET "where_is_cbash_folder=%~dp0"
-CD %where_is_cbash_folder%
-SET "temp=%__CD__%"
+SET "cbash_location=%~dp0"
+CD %cbash_location%
 ECHO -^> pacman -Suy
 pacman -Suy
 ECHO.
@@ -330,8 +323,9 @@ EXIT /b 0
 :F-wsl-update
 ECHO -^> wsl --update
 wsl --update
-ECHO -^> wsl sudo apt update && sudo apt upgrad
-wsl sudo apt update ^&^& sudo apt upgrade
+ECHO -^> wsl sudo apt update ^&^& sudo apt upgrade
+wsl sudo apt update
+wsl sudo apt upgrade
 EXIT /b 0
 
 :F-wsl-shutdown
