@@ -326,14 +326,17 @@ wsl --update
 ECHO -^> wsl sudo apt update ^&^& sudo apt upgrade
 wsl sudo apt update
 wsl sudo apt upgrade
+ECHO.
 EXIT /b 0
 
 :F-wsl-shutdown
 ECHO -^> wsl --shutdown
 wsl --shutdown
+ECHO.
 EXIT /b 0
 
 :F-winget-update
 ECHO -^> winget update --all --include-unknown
 winget update --all --include-unknown
+ECHO.
 EXIT /b 0
